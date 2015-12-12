@@ -1,42 +1,47 @@
 FROM ubuntu:14.04
 MAINTAINER Algorithm Ninja <algorithm@ninja>
 
+ARG NO_PASCAL=0
+
 RUN apt-get update
+
+# Dependencies
+RUN apt-get -y install postgresql-client gettext python2.7 iso-codes shared-mime-info stl-manual cgroup-lite supervisor
+
+# Compilers (for supported languages)
 RUN apt-get -y install g++
-#RUN apt-get -y install fpc
-RUN apt-get -y install postgresql-client
-RUN apt-get -y install gettext
-RUN apt-get -y install python2.7
-RUN apt-get -y install iso-codes
-RUN apt-get -y install shared-mime-info
-RUN apt-get -y install stl-manual
-RUN apt-get -y install cgroup-lite
-RUN apt-get -y install supervisor
-RUN apt-get -y install python-pip
+RUN if test "$NO_PASCAL" = '0'; then apt-get -y install fpc; fi
 
 # This apt-get is necessary until the following adopt python wheels:
 #   * psycopg2
 #   * pycups
 #   * PyYAML
 # (And until python wheels will support Linux binaries)
-RUN apt-get -y install python-dev
-RUN apt-get -y install libpq-dev
-RUN apt-get -y install libcups2-dev
-RUN apt-get -y install libyaml-dev
+RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev
 
-RUN git clone --recursive https://github.com/cms-dev/cms.git /cms
+# Tools
+RUN apt-get -y install git python-pip
 
-RUN cd /cms && \
+# Prepare for CMS
+RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
+    cd /cms && \
     pip install -r requirements.txt && \
-    ./prerequisites.py install --as-root -y && \
-    python setup.py install
+    ./prerequisites.py install --as-root -y
 
-RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial
+# Dependencies (cmsocial-web)
+RUN apt-get -y install nodejs-legacy
 
-RUN cd /cmsocial && \
+# Update make (this will go away after ubuntu 14.04)
+RUN apt-get -y install wget && \
+    wget http://mirrors.kernel.org/ubuntu/pool/main/m/make-dfsg/make_4.0-8.2_amd64.deb && \
+    dpkg -i make_4.0-8.2_amd64.deb
+
+# Install CMS and CMSocial
+RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial && \
+    cd /cmsocial && \
     pip install -r requirements.txt && \
     python setup.py install && \
-    make ONLINE=1
+    make PROD=1
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/cmsocial.conf
