@@ -22,14 +22,14 @@ RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev
 # Tools
 RUN apt-get -y install git python-pip
 
-# Prepare for CMS
+# Prepare for CMS (maybe this can be done without git clone)
 RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     cd /cms && \
     pip install -r requirements.txt && \
     ./prerequisites.py install --as-root -y
 
 # Dependencies (cmsocial-web)
-RUN apt-get -y install nodejs-legacy npm
+RUN apt-get -y install nodejs-legacy npm nginx
 
 # Update make (this will go away after ubuntu 14.04)
 RUN apt-get -y install wget && \
@@ -46,7 +46,7 @@ RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial && \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/cmsocial.conf
 
-EXPOSE 80 8889 8890
+EXPOSE 8888 8889 8890
 WORKDIR /cmsocial
 CMD cgroups-mount
 CMD supervisord
