@@ -46,7 +46,7 @@ RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial && \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/cmsocial.conf
 
-EXPOSE 8888 8889 8890
+EXPOSE 80 8889 8890
 WORKDIR /cmsocial
 CMD cgroups-mount
 CMD supervisord
