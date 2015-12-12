@@ -29,7 +29,7 @@ RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     ./prerequisites.py install --as-root -y
 
 # Dependencies (cmsocial-web)
-RUN apt-get -y install nodejs-legacy
+RUN apt-get -y install nodejs-legacy npm
 
 # Update make (this will go away after ubuntu 14.04)
 RUN apt-get -y install wget && \
