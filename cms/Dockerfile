@@ -29,7 +29,11 @@ RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     ./prerequisites.py install --as-root -y && \
     python setup.py install
 
+# Additional dependencies (to run multiple CWS instances)
+RUN apt-get -y install nginx
+
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY nginx.conf /etc/nginx/conf.d/cmsocial.conf
 
 EXPOSE 8888 8889 8890
 WORKDIR /cms
