@@ -36,9 +36,14 @@ RUN apt-get -y install wget && \
     wget http://mirrors.kernel.org/ubuntu/pool/main/m/make-dfsg/make_4.0-8.2_amd64.deb && \
     dpkg -i make_4.0-8.2_amd64.deb
 
+# Clone CMSocial
+RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial
+
+# Override configuration
+COPY config /cmsocial/
+
 # Install CMS and CMSocial
-RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial && \
-    cd /cmsocial && \
+RUN cd /cmsocial && \
     pip install -r requirements.txt && \
     python setup.py install && \
     make PROD=1
