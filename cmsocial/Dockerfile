@@ -40,7 +40,7 @@ RUN apt-get -y install wget && \
 RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial
 
 # Override configuration
-COPY config/* /cmsocial/config/
+ADD config /cmsocial/config
 
 # Install CMS and CMSocial
 RUN cd /cmsocial && \
