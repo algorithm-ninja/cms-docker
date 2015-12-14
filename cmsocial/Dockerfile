@@ -26,7 +26,7 @@ RUN apt-get -y install git python-pip
 RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     cd /cms && \
     pip install -r requirements.txt && \
-    ./prerequisites.py install --as-root -y
+    ./prerequisites.py install --as-root --no-conf -y
 
 # Dependencies (cmsocial-web)
 RUN apt-get -y install nodejs-legacy npm nginx
@@ -40,7 +40,7 @@ RUN apt-get -y install wget && \
 RUN git clone https://github.com/algorithm-ninja/cmsocial.git /cmsocial
 
 # Override configuration
-COPY config /cmsocial/
+COPY config/* /cmsocial/config/
 
 # Install CMS and CMSocial
 RUN cd /cmsocial && \
