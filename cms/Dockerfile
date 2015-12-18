@@ -33,7 +33,7 @@ RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
 RUN apt-get -y install nginx
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY nginx.conf /etc/nginx/conf.d/cmsocial.conf
+COPY nginx.conf /etc/nginx/conf.d/cms.conf
 
 EXPOSE 8888 8889 8890
 WORKDIR /cms
