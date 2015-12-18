@@ -26,7 +26,7 @@ RUN apt-get -y install git python-pip
 RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     cd /cms && \
     pip install -r requirements.txt && \
-    ./prerequisites.py install --as-root -y && \
+    ./prerequisites.py install --as-root --no-conf -y && \
     python setup.py install
 
 # Additional dependencies (to run multiple CWS instances)
