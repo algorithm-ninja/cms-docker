@@ -1,0 +1,45 @@
+# This configuration assumes that the DB is pulled as a docker container,
+# so it will be linked as "postgres" and can be pinged like this:
+#   $ ping postgres
+# Thus, you can write this in cms.conf:
+#   "database": "postgresql+psycopg2://dbusername:dbpassword@postgres/dbname",
+
+
+# sample cms instance, change my_cms_instance to whatever
+my_cms_instance:
+  container_name: my_cms_instance
+  privileged: yes
+  restart: always
+  build: cms
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/
+  links:
+   - postgres
+
+# sample cmsocial instance, change my_cmsocial_instance to whatever
+my_cmsocial_instance:
+  container_name: my_cmsocial_instance
+  privileged: yes
+  restart: always
+  build: cmsocial
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/
+  links:
+   - postgres
+
+# this will pull the official postgres image
+postgres:
+  restart: always
+  image: postgres

@@ -1,0 +1,34 @@
+# This configuration assumes that the DB is to be found externally, for
+# example by specifying this in cms.conf:
+#   "database": "postgresql+psycopg2://dbusername:dbpassword@example.com/dbname",
+
+
+# sample cms instance, change my_cms_instance to whatever
+my_cms_instance:
+  container_name: my_cms_instance
+  privileged: yes
+  restart: always
+  build: cms
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/
+
+# sample cmsocial instance, change my_cmsocial_instance to whatever
+my_cmsocial_instance:
+  container_name: my_cmsocial_instance
+  privileged: yes
+  restart: always
+  build: cmsocial
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/

@@ -1,0 +1,36 @@
+# This configuration assumes that the DB is installed locally, so you can
+# ping it as "172.17.0.1" if you have docker 1.9, otherwise "172.17.42.1":
+#   $ ping 172.17.0.1
+# Thus, you can write this in cms.conf:
+#   "database": "postgresql+psycopg2://dbusername:dbpassword@172.17.0.1/dbname",
+
+
+# sample cms instance, change my_cms_instance to whatever
+my_cms_instance:
+  container_name: my_cms_instance
+  privileged: yes
+  restart: always
+  build: cms
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/
+
+# sample cmsocial instance, change my_cmsocial_instance to whatever
+my_cmsocial_instance:
+  container_name: my_cmsocial_instance
+  privileged: yes
+  restart: always
+  build: cmsocial
+  ports:
+   - 8888
+   - 8889
+   - 8890
+  volumes:
+   - /path/to/configuration/:/usr/local/etc/
+   - /path/to/logs/:/var/local/log/cms/
+   - /path/to/tasks/:/problems/
