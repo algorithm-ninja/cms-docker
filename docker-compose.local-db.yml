@@ -1,5 +1,5 @@
 # This configuration assumes that the DB is installed locally, so you can
-# ping it as "172.17.0.1" if you have docker 1.9, otherwise "172.17.42.1":
+# ping it as "172.17.0.1" if you have docker >= 1.9, otherwise "172.17.42.1":
 #   $ ping 172.17.0.1
 # Thus, you can write this in cms.conf:
 #   "database": "postgresql+psycopg2://dbusername:dbpassword@172.17.0.1/dbname",
