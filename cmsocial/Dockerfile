@@ -17,7 +17,7 @@ RUN if test "$NO_PASCAL" = '0'; then apt-get -y install fpc; fi
 #   * pycups
 #   * PyYAML
 # (And until python wheels will support Linux binaries)
-RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev
+RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev libffi-dev
 
 # Tools
 RUN apt-get -y install git python-pip
