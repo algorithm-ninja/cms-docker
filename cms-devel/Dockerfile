@@ -33,6 +33,7 @@ RUN apt-get -y install nginx
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/cms.conf
+COPY blocked_ips /etc/nginx/blocked_ips
 
 EXPOSE 8888 8889 8890
 WORKDIR /cms

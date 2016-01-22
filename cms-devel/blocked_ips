@@ -1,0 +1,7 @@
+# Here you can deny/allow access to IPs and/or IP ranges
+
+#deny 75.40.0.0/16;
+#deny 106.180.249.32;
+
+#deny all;
+#allow 112.165.90.0/8;
