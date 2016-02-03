@@ -39,8 +39,12 @@ RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
     pip install -r requirements.txt && \
     ./prerequisites.py install --as-root --no-conf -y
 
-# Dependencies (cmsocial-web)
-RUN apt-get -y install nodejs-legacy npm nginx
+# CMSocial dependencies: nginx
+RUN apt-get -y install nginx
+
+# CMSocial dependencies: nodejs + npm
+RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+RUN apt-get -y install nodejs
 
 # Update make (this will go away after ubuntu 14.04)
 RUN apt-get -y install wget && \
