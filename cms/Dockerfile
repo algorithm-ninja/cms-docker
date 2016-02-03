@@ -1,7 +1,12 @@
 FROM ubuntu:14.04
 MAINTAINER Algorithm Ninja <algorithm@ninja>
 
+# Whether we can spare some space or not
 ARG NO_PASCAL=0
+
+# Which specialization we want to install
+ARG CMS_REPO=cms-dev/cms
+ARG CMS_BRANCH=master
 
 RUN apt-get update
 
@@ -23,8 +28,9 @@ RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev libffi-dev
 RUN apt-get -y install git python-pip
 
 # Prepare for CMS
-RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
+RUN git clone --branch $CMS_BRANCH --depth 1 https://github.com/$CMS_REPO.git /cms && \
     cd /cms && \
+    git submodule update --init --depth 1 && \
     pip install -r requirements.txt && \
     ./prerequisites.py install --as-root --no-conf -y && \
     python setup.py install
