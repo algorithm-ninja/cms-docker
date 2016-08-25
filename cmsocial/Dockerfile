@@ -63,7 +63,7 @@ RUN cd /cmsocial && \
     python setup.py install && \
     make PROD=1
 
-COPY $DOCKERFILE_FOLDER/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY $DOCKERFILE_FOLDER/supervisord.conf /etc/supervisor/conf.d/cmsocial.conf
 COPY $DOCKERFILE_FOLDER/nginx.conf /etc/nginx/conf.d/cmsocial.conf
 COPY $DOCKERFILE_FOLDER/blocked_ips /etc/nginx/blocked_ips
 
