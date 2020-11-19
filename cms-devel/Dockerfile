@@ -1,32 +1,35 @@
-FROM ubuntu:14.04
-MAINTAINER Algorithm Ninja <algorithm@ninja>
+FROM ubuntu:18.04
 
-ARG NO_PASCAL=0
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 
 # Dependencies
-RUN apt-get -y install postgresql-client gettext python2.7 iso-codes shared-mime-info stl-manual cgroup-lite supervisor
-
-# Compilers (for supported languages)
-RUN apt-get -y install g++
-RUN if test "$NO_PASCAL" = '0'; then apt-get -y install fpc; fi
+RUN apt-get install -y build-essential openjdk-8-jdk-headless fp-compiler \
+    postgresql postgresql-client python3.6 cppreference-doc-en-html \
+    cgroup-lite libcap-dev zip haskell-platform rustc mono-mcs
+# Python Dependencies
+RUN apt-get install -y python3-setuptools python3-tornado python3-psycopg2 \
+     python3-sqlalchemy python3-psutil python3-netifaces python3-crypto \
+     python3-six python3-bs4 python3-coverage python3-mock python3-requests \
+     python3-werkzeug python3-gevent python3-bcrypt python3-chardet patool \
+     python3-babel python3-xdg python3-future python3-jinja2
 
 # This apt-get is necessary until the following adopt python wheels:
 #   * psycopg2
 #   * pycups
 #   * PyYAML
 # (And until python wheels will support Linux binaries)
-RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev libffi-dev
+#RUN apt-get -y install python-dev libpq-dev libcups2-dev libyaml-dev libffi-dev
 
 # Tools
-RUN apt-get -y install git python-pip
+RUN apt-get -y install git
 
 # Prepare for CMS
-RUN cd /cms && \
-    pip install -r requirements.txt && \
-    ./prerequisites.py install --as-root --no-conf -y && \
-    python setup.py install
+RUN git clone --recursive https://github.com/cms-dev/cms.git /cms && \
+    cd /cms && \
+    ./prerequisites.py --as-root --no-conf -y install && \
+    python3 setup.py install
 
 # Additional dependencies (to run multiple CWS instances)
 RUN apt-get -y install nginx
